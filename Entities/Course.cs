@@ -1,11 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static CourseLibrary.Entites.Authors;
+using static CourseLibrary.Entities.Author;
 
-namespace CourseLibrary.Entites
+namespace CourseLibrary.Entities
 {
-    public class Courses
+    public class Course
     {
         [Key]       
         public Guid Id { get; set; }
@@ -15,7 +15,7 @@ namespace CourseLibrary.Entites
         [MaxLength(1500)]
         public string Description { get; set; }
         [ForeignKey("AuthorId")]
-        public Authors Author { get; set; }
+        public Author Author { get; set; }
         public Guid AuthorId { get; set; }
     }
 }

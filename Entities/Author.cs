@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseLibrary.Entites
+namespace CourseLibrary.Entities
 {
-    public class Authors
+    public class Author
     {
         [Key]
         public Guid Id { get; set; }
@@ -19,7 +19,7 @@ namespace CourseLibrary.Entites
         [Required]
         [MaxLength(50)]
         public string MainCategory { get; set; }
-        public ICollection<Courses> Courses { get; set; }
-            = new List<Courses>();
+        public ICollection<Course> Courses { get; set; }
+            = new List<Course>();
     }
 }
