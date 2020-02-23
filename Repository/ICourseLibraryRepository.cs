@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using CourseLibrary.Entities;
+using CourseLibrary.Helpers;
 using CourseLibrary.ResourceParameters;
 
 namespace CourseLibrary.Repository
@@ -14,7 +15,7 @@ namespace CourseLibrary.Repository
         void UpdateCourse(Course course);
         void DeleteCourse(Course course);
         IEnumerable<Author> GetAuthors();
-        IEnumerable<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters);
+        PagedList<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters);
         Author GetAuthor(Guid authorId);
         IEnumerable<Author> GetAuthors(IEnumerable<Guid> authorIds);
         void AddAuthor(Author author);
