@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CourseLibrary.DbContexts;
 using CourseLibrary.Repository;
+using CourseLibrary.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -62,7 +63,7 @@ namespace CourseLibrary {
             services.AddDbContext<CourseLibraryContext> (options => options.UseSqlServer (Configuration.GetConnectionString ("ConexaoSQL")));
             services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository> ();
-
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

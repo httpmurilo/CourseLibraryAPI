@@ -68,6 +68,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.0.0, )"
+            },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.0.20, )"
             }
           },
           "imports": [
