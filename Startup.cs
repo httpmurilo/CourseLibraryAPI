@@ -64,6 +64,7 @@ namespace CourseLibrary {
             services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository> ();
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+            services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
