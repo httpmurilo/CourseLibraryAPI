@@ -5,5 +5,6 @@ namespace CourseLibrary.Helpers
     {
         PreviousPage,
         NetxPage,
+        Current
     }
 }
