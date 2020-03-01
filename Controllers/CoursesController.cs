@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using CourseLibrary.Models;
 using CourseLibrary.Repository;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -15,6 +16,8 @@ namespace CourseLibrary.Controllers
         
     [ApiController]
     [Route("api/authors/{authorId}/courses")]
+    [HttpCacheExpiration(CacheLocation=CacheLocation.Public)]
+    [HttpCacheValidation(MustRevalidate=true)]
     public class CoursesController : ControllerBase
     {
         private readonly ICourseLibraryRepository _courseLibraryRepository;
@@ -30,7 +33,6 @@ namespace CourseLibrary.Controllers
         }
 
         [HttpGet(Name = "GetCoursesForAuthor")]
-        [ResponseCache(Duration=120 )]
         public ActionResult<IEnumerable<CourseDto>> GetCoursesForAuthor(Guid authorId)
         {
             if (!_courseLibraryRepository.AuthorExists(authorId))
@@ -43,6 +45,8 @@ namespace CourseLibrary.Controllers
         }
 
         [HttpGet("{courseId}", Name = "GetCourseForAuthor")]
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 1000)]
+        [HttpCacheValidation(MustRevalidate=false)]
         public ActionResult<CourseDto> GetCourseForAuthor(Guid authorId, Guid courseId)
         {
             if (!_courseLibraryRepository.AuthorExists(authorId))

@@ -58,3 +58,4 @@ C:\Users\murilo.melo\Desktop\Murilo\2020\restful\CourseLibrary\obj\Debug\netcore
 C:\Users\murilo.melo\Desktop\Murilo\2020\restful\CourseLibrary\obj\Debug\netcoreapp3.0\CourseLibrary.csproj.CopyComplete
 C:\Users\murilo.melo\Desktop\Murilo\2020\restful\CourseLibrary\obj\Debug\netcoreapp3.0\CourseLibrary.dll
 C:\Users\murilo.melo\Desktop\Murilo\2020\restful\CourseLibrary\obj\Debug\netcoreapp3.0\CourseLibrary.pdb
+C:\Users\murilo.melo\Desktop\Murilo\2020\restful\CourseLibrary\bin\Debug\netcoreapp3.0\System.Linq.Dynamic.Core.dll

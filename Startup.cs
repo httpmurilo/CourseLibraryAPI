@@ -28,55 +28,60 @@ namespace CourseLibrary {
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) 
-        {
-            services.AddResponseCaching();
-            services.AddControllers (setupAction =>
+        public void ConfigureServices (IServiceCollection services) {
+            
+            services.AddHttpCacheHeaders((expirationModelOptions) =>
             {
-                setupAction.ReturnHttpNotAcceptable = true;
-
-            }).AddNewtonsoftJson(setupAction =>
-             {
-                 setupAction.SerializerSettings.ContractResolver =
-                    new CamelCasePropertyNamesContractResolver();
-             })
-             .AddXmlDataContractSerializerFormatters()
-            .ConfigureApiBehaviorOptions(setupAction =>
+                expirationModelOptions.MaxAge = 60;
+                expirationModelOptions.CacheLocation = Marvin.Cache.Headers.CacheLocation.Private;
+            },
+            (validationModelOptions) =>
             {
-                setupAction.InvalidModelStateResponseFactory = context =>
-                {
-                    var problemDetails = new ValidationProblemDetails(context.ModelState)
-                    {
-                        Type = "https://courselibrary.com/modelvalidationproblem",
-                        Title = "One or more model validation errors occurred.",
-                        Status = StatusCodes.Status422UnprocessableEntity,
-                        Detail = "See the errors property for details.",
-                        Instance = context.HttpContext.Request.Path
-                    };
-
-                    problemDetails.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
-
-                    return new UnprocessableEntityObjectResult(problemDetails)
-                    {
-                        ContentTypes = { "application/problem+json" }
-                    };
-                };
+                validationModelOptions.MustRevalidate = true;
             });
+            services.AddResponseCaching ();
+            services.AddControllers (setupAction => {
+                    setupAction.ReturnHttpNotAcceptable = true;
+                    setupAction.CacheProfiles.Add ("240SecondsCacheProfile",
+                        new CacheProfile () {
+                            Duration = 240
+                        });
+
+                }).AddNewtonsoftJson (setupAction => {
+                    setupAction.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver ();
+                })
+                .AddXmlDataContractSerializerFormatters ()
+                .ConfigureApiBehaviorOptions (setupAction => {
+                    setupAction.InvalidModelStateResponseFactory = context => {
+                    var problemDetails = new ValidationProblemDetails (context.ModelState) {
+                    Type = "https://courselibrary.com/modelvalidationproblem",
+                    Title = "One or more model validation errors occurred.",
+                    Status = StatusCodes.Status422UnprocessableEntity,
+                    Detail = "See the errors property for details.",
+                    Instance = context.HttpContext.Request.Path
+                        };
+
+                        problemDetails.Extensions.Add ("traceId", context.HttpContext.TraceIdentifier);
+
+                        return new UnprocessableEntityObjectResult (problemDetails) {
+                            ContentTypes = { "application/problem+json" }
+                        };
+                    };
+                });
 
             services.AddDbContext<CourseLibraryContext> (options => options.UseSqlServer (Configuration.GetConnectionString ("ConexaoSQL")));
             services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository> ();
-            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
-            services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
-            services.Configure<MvcOptions>(config =>
-            {
+            services.AddTransient<IPropertyMappingService, PropertyMappingService> ();
+            services.AddTransient<IPropertyCheckerService, PropertyCheckerService> ();
+            services.Configure<MvcOptions> (config => {
                 //resolvendo o problema do output para o hateoas,configurando novamente o suporte ao hateoas, procura uma saida do  formatador do tipo
                 var newtonsoftJsonOutputFormatter = config.OutputFormatters
-                    .OfType<NewtonsoftJsonOutputFormatter>()?.FirstOrDefault();
-                    if (newtonsoftJsonOutputFormatter != null)
-                    {
-                        newtonsoftJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
-                    }
+                    .OfType<NewtonsoftJsonOutputFormatter> ()?.FirstOrDefault ();
+                if (newtonsoftJsonOutputFormatter != null) {
+                    newtonsoftJsonOutputFormatter.SupportedMediaTypes.Add ("application/vnd.marvin.hateoas+json");
+                }
             });
         }
 
@@ -84,29 +89,24 @@ namespace CourseLibrary {
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
-            }
-            else
-            {
-                app.UseExceptionHandler(appBuilder =>
-                {
-                    appBuilder.Run(async context =>
-                    {
+            } else {
+                app.UseExceptionHandler (appBuilder => {
+                    appBuilder.Run (async context => {
                         context.Response.StatusCode = 500;
-                        await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+                        await context.Response.WriteAsync ("An unexpected fault happened. Try again later.");
                     });
                 });
 
             }
-            app.UseResponseCaching();
-            app.UseRouting();
+      
+            app.UseHttpCacheHeaders();
+            app.UseRouting ();
 
-            app.UseAuthorization();
+            app.UseAuthorization ();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
+            app.UseEndpoints (endpoints => {
+                endpoints.MapControllers ();
             });
         }
     }
 }
-
