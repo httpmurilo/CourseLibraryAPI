@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,9 @@ namespace CourseLibrary {
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices (IServiceCollection services) 
+        {
+            services.AddResponseCaching();
             services.AddControllers (setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;
@@ -65,6 +68,16 @@ namespace CourseLibrary {
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository> ();
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
             services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
+            services.Configure<MvcOptions>(config =>
+            {
+                //resolvendo o problema do output para o hateoas,configurando novamente o suporte ao hateoas, procura uma saida do  formatador do tipo
+                var newtonsoftJsonOutputFormatter = config.OutputFormatters
+                    .OfType<NewtonsoftJsonOutputFormatter>()?.FirstOrDefault();
+                    if (newtonsoftJsonOutputFormatter != null)
+                    {
+                        newtonsoftJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
+                    }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,7 +97,7 @@ namespace CourseLibrary {
                 });
 
             }
-
+            app.UseResponseCaching();
             app.UseRouting();
 
             app.UseAuthorization();
