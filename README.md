@@ -1,4 +1,4 @@
-##CourseLibraryAPI
+## CourseLibraryAPI
 A demonstration project using RESTful standards and restrictions within a WebApi.
 In this project you can see :
 * Full HATEOAS Pattern.
@@ -13,19 +13,20 @@ In this project you can see :
 * ExpandoObject and IDictionary.
 
 
-##Getting Started
+## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-##Pre requisites
+## Pre requisites
 Not applicable
 
-##Installing
+## Installing
 Required ```ASP.NET Core Runtime 3.0.0```
 
+Command is :
 ```dotnet run
 
 
-##Built With
+## Built With
 AspNetCore 3.0.0.
 NewtonsoftJson for HTTP Patch.
 Marvin Cache Headers.
