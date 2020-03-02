@@ -17,14 +17,10 @@ In this project you can see :
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ## Pre requisites
-Not applicable
+Not applicable.
 
 ## Installing
-Required ```ASP.NET Core Runtime 3.0.0```
-
-Command is :
-```dotnet run
-
+Required ```ASP.NET Core Runtime 3.0.0``` .
 
 ## Built With
 AspNetCore 3.0.0.
