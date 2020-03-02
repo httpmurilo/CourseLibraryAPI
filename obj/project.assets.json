@@ -235,6 +235,18 @@
           "build/netcoreapp2.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/3.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/3.1.2": {
         "type": "package",
         "dependencies": {
@@ -1820,6 +1832,19 @@
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Design.xml",
         "microsoft.entityframeworkcore.design.3.0.0.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/3.0.0": {
+      "sha512": "w9xVQ81t+pMEVhoy4e4mxPYVMxfoekfPO4OycKSzFROliTyIJrzDm5O+0Vh7NtFh3Fe7tBshWu/lEiLOgcx+Wg==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/netstandard2.1/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.3.0.0.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/3.1.2": {
@@ -5437,6 +5462,7 @@
       "Microsoft.AspNetCore.JsonPatch >= 3.0.0",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 3.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 3.0.0",
+      "Microsoft.EntityFrameworkCore.InMemory >= 3.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.2",
       "Microsoft.EntityFrameworkCore.Tools >= 3.0.0",
       "System.Linq.Dynamic.Core >= 1.0.20"
@@ -5502,6 +5528,10 @@
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[3.0.0, )"
           },

@@ -70,7 +70,7 @@ namespace CourseLibrary {
                     };
                 });
 
-            services.AddDbContext<CourseLibraryContext> (options => options.UseSqlServer (Configuration.GetConnectionString ("ConexaoSQL")));
+            services.AddDbContext<CourseLibraryContext> (opt => opt.UseInMemoryDatabase("Database"));
             services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddScoped<ICourseLibraryRepository, CourseLibraryRepository> ();
             services.AddTransient<IPropertyMappingService, PropertyMappingService> ();
@@ -85,7 +85,6 @@ namespace CourseLibrary {
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
